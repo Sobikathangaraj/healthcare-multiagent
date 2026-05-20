@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  backend:
+    build: ./healthcare-multiagent-backend/healthcare-multiagent
+    container_name: healthcare_backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./healthcare-multiagent-backend/healthcare-multiagent/.env
+    networks:
+      - healthcare_net
+
+  frontend:
+    build: ./healthcare-frontend/healthcare-frontend
+    container_name: healthcare_frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - healthcare_net
+
+networks:
+  healthcare_net:
+    driver: bridge
